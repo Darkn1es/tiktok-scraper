@@ -17,7 +17,7 @@ import {
     PostCollector,
     History,
     HistoryItem,
-    MusicMetadata,
+    MusicMetadata
 } from './types';
 import CONST from './constant';
 import { makeVerifyFp } from './helpers';
@@ -140,7 +140,7 @@ export const getHashtagInfo = async (input: string, options = {} as Options): Pr
     return result;
 };
 
-export const getMusicInfo = async (input: string, options = {} as Options): Promise<MusicMetadata> => {
+export const getMusicInfo = async (id: string, title: string, options = {} as Options): Promise<MusicMetadata> => {
     if (options && typeof options !== 'object') {
         throw new TypeError('Object is expected');
     }
@@ -150,10 +150,9 @@ export const getMusicInfo = async (input: string, options = {} as Options): Prom
     if (options?.sessionFile) {
         options.sessionList = await sessionFromFile(options?.sessionFile);
     }
-    const contructor: TikTokConstructor = { ...getInitOptions(), ...options, ...{ type: 'single_music' as ScrapeType, input } };
-    const scraper = new TikTokScraper(contructor);
-
-    const result = await scraper.getMusicInfo();
+    const constructor: TikTokConstructor = { ...getInitOptions(), ...options, ...{ type: 'single_music' as ScrapeType, input: '' } };
+    const scraper = new TikTokScraper(constructor);
+    const result = await scraper.getMusicInfo(id, title);
     return result;
 };
 
