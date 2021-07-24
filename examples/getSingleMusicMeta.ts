@@ -2,7 +2,7 @@ import { getMusicInfo } from '../src';
 
 (async () => {
     try {
-        const musicMeta = await getMusicInfo('https://www.tiktok.com/music/Say-So-6763054442704145158?lang=en', {});
+        const musicMeta = await getMusicInfo('6763054442704145158', 'Say So', {});
         console.log(musicMeta);
     } catch (error) {
         console.log(error);
