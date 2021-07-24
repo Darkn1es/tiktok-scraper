@@ -1103,17 +1103,12 @@ export class TikTokScraper extends EventEmitter {
      * Get music information
      * @param {} music link
      */
-    public async getMusicInfo(): Promise<MusicMetadata> {
-        await this.getValidHeaders(this.input, false);
-        if (!this.input) {
-            throw `Music is missing`;
-        }
-
-        const musicTitle = /music\/([\w-]+)-\d+/.exec(this.input);
-        const musicId = /music\/[\w-]+-(\d+)/.exec(this.input);
+    public async getMusicInfo(id: string, title: string): Promise<MusicMetadata> {
+        await this.getValidHeaders(this.mainHost, false);
+        const encodedTitle = encodeURIComponent(title);
 
         const query = {
-            uri: `https://www.tiktok.com/node/share/music/${musicTitle ? musicTitle[1] : ''}-${musicId ? musicId[1] : ''}`,
+            uri: `https://www.tiktok.com/node/share/music/${encodedTitle}-${id}`,
             qs: {
                 screen_width: 1792,
                 screen_height: 1120,
@@ -1130,8 +1125,8 @@ export class TikTokScraper extends EventEmitter {
                 app_name: 'tiktok_web',
                 timezone_name: '',
                 device_platform: 'web',
-                musicId: musicId ? musicId[1] : '',
-                musicName: musicTitle ? musicTitle[1] : '',
+                musicId: id,
+                musicName: encodedTitle,
             },
             method: 'GET',
             json: true,
