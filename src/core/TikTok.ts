@@ -32,7 +32,7 @@ import {
     HashtagMetadata,
     Headers,
     WebHtmlUserMetadata,
-    VideoMetadata,
+    VideoMetadata
 } from '../types';
 
 import { Downloader } from '../core';
