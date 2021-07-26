@@ -1105,7 +1105,10 @@ export class TikTokScraper extends EventEmitter {
      */
     public async getMusicInfo(id: string, title: string): Promise<MusicMetadata> {
         await this.getValidHeaders(this.mainHost, false);
-        const encodedTitle = encodeURIComponent(title);
+        const clearTitle = title.replace(/#|'|&/g, '');
+        console.log(title);
+        console.log(clearTitle);
+        const encodedTitle = encodeURIComponent(clearTitle);
 
         const query = {
             uri: `https://www.tiktok.com/node/share/music/${encodedTitle}-${id}`,
