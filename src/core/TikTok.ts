@@ -877,7 +877,7 @@ export class TikTokScraper extends EventEmitter {
             ...(signUrl
                 ? {
                       qs: {
-                          _signature: sign(url),
+                          _signature: sign(url, this.headers['user-agent']),
                       },
                   }
                 : {}),
@@ -898,7 +898,7 @@ export class TikTokScraper extends EventEmitter {
         this.storeValue = this.scrapeType === 'trend' ? 'trend' : qs.id || qs.challengeID! || qs.musicID!;
 
         const unsignedURL = `${this.getApiEndpoint}?${new URLSearchParams(qs as any).toString()}`;
-        const _signature = sign(unsignedURL);
+        const _signature = sign(unsignedURL, this.headers['user-agent']);
 
         const options = {
             uri: this.getApiEndpoint,
@@ -1136,7 +1136,7 @@ export class TikTokScraper extends EventEmitter {
         };
 
         const unsignedURL = `${query.uri}?${new URLSearchParams(query.qs as any).toString()}`;
-        const _signature = sign(unsignedURL);
+        const _signature = sign(unsignedURL, this.headers['user-agent']);
 
         // @ts-ignore
         query.qs._signature = _signature;
@@ -1160,7 +1160,7 @@ export class TikTokScraper extends EventEmitter {
         if (!this.input) {
             throw `Url is missing`;
         }
-        return sign(this.input);
+        return sign(this.input, this.headers['user-agent']);
     }
 
     /**
